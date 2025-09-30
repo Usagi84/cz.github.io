@@ -1,1 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CookZen</title>
+    <link rel="icon" type="image/x-icon" href="./CookZen.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f8f8f8;
+    }
+
+
+body.rouge {
+  background-color: #ffeded;
+  color: #a80000;
+}
+
+body.bleu {
+  background-color: #e6f0ff;
+  color: #003d99;
+}
+
+body.violet {
+  background-color: #f0e6ff;
+  color: #4b0082;
+}
+
+    body.red .footer {
+      background-color: #db3131;
+    }
+    body.orange .footer {
+      background-color: #ffb74d;
+    }
+    body.blue .footer {
+      background-color: #64b5f6;
+    }
+    body.purple .footer {
+      background-color: #ba68c8;
+    }
+
+    body.red .voir-btn, body.red .etape-btn {
+      background-color: #db3131;
+    }
+    body.orange .voir-btn, body.orange .etape-btn {
+      background-color: #ffb74d;
+    }
+    body.blue .voir-btn, body.blue .etape-btn {
+      background-color: #64b5f6;
+    }
+    body.purple .voir-btn, body.purple .etape-btn {
+      background-color: #ba68c8;
+    }
+    
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 20;
+}
+
+.nav-btn {
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: 34px;
+  cursor: pointer;
+  color: #8f8989;
+}
+
+.nav-btn:focus {
+  outline: none;
+}
+    
+    .footer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 120px;
+      background: #db3131;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      z-index: 10;
+    }
+
+    .barre {
+      position: fixed;
+      top: 120px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: black;
+      z-index: 9;
+    }
+
+    .contenu {
+  margin-top: 140px;
+  padding: 20px;
+  font-size: 18px;
+}
+
+@media (max-width: 480px) {
+  .contenu {
+    margin-top: 120px;
+  }
+}
+
+    .recette-item {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 15px;
+      position: relative;
+    }
+
+    .recette-title {
+      font-size: 20px;
+      font-weight: bold;
+      padding-left: 40px;
+    }
+
+    .voir-btn, .etape-btn {
+      margin-top: 6px;
+      padding: 6px 12px;
+      font-size: 14px;
+      background: #db3131;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-input {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 10px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+    .recette-content {
+      display: none;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .recette-content.active {
+      display: block;
+    }
+
+    .heart {
+      font-size: 26px;
+      color: #db3131;
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: 0.3s;
+    }
+
+    .heart.fav {
+      color: red;
+    }
+
+    #filter-btn {
+      margin-bottom: 30px;
+      padding: 10px 20px;
+      background-color: #5865F2;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #filter-btn:hover {
+      background-color: #404EED;
+    }
+
+    @media (max-width: 480px) {
+      .footer { font-size: 24px; height: 110px; }
+      .barre { top: 110px; }
+      .discord-zone img { width: 60px; height: 60px; }
+      .discord-zone span { font-size: 12px; }
+      .recette-title { font-size: 18px; }
+    }
+
+    .cookzen-title {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+}
+
+    #lang-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: white;
+  color: #db3131;
+  border: none;
+  border-radius: 5px;
+  font-size: 24px;
+  padding: 6px 10px;
+  cursor: pointer;
+  z-index: 11;
+  transition: background 0.2s;
+}
+
+#lang-btn:hover {
+  background: #f1f1f1;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="footer">
+  <div class="cookzen-title">CookZen</div>
+</div>
+
+  <div class="barre"></div>
+<div class="bottom-nav">
+  <a class="nav-btn" href="index.html">🏠</a>
+  <a class="nav-btn" href="premium.html">🔒</a>
+  <a class="nav-btn" href="favoris.html">❤️</a>
+  <a class="nav-btn" href="parametres.html">⚙️</a>
+</div>
+
+  
+  <div class="contenu">
+   <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une recette..." onkeyup="filterRecipes()">
+    
+<div id="recipeList">
+    <div class="recette-item" data-id="pain">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍞 Pain sans gluten
+        <button class="voir-btn" onclick="afficheRecette('pain')">Voir</button>
+      </div>
+      <div id="pain" class="recette-content">
+        <ul>
+    <li>250 g de farine de riz</li>
+    <li>50 g de farine de sarrasin</li>
+    <li>50 g de fécule de maïs (ou pomme de terre)</li>
+    <li>1 c. à café de sel</li>
+    <li>1 c. à soupe de psyllium blond (indispensable)</li>
+    <li>1 sachet de levure de boulanger sèche (ou 15 g de levure fraîche)</li>
+    <li>1 c. à café de sucre</li>
+    <li>300 ml d'eau tiède</li>
+    <li>1 c. à soupe d'huile d'olive</li>
+        </ul>
+        <a class="etape-btn" href="pain.html">Voir les étapes</a>
+      </div>
+    </div>
+
+    <div class="recette-item" data-id="pizza">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍕 Pâte à pizza sans gluten
+        <button class="voir-btn" onclick="afficheRecette('pizza')">Voir</button>
+      </div>
+      <div id="pizza" class="recette-content">
+        <ul>
+    <li>150 g de farine de riz</li>
+    <li>50 g de farine de sarrasin</li>
+    <li>50 g de fécule de maïs</li>
+    <li>1 c. à café de sel</li>
+    <li>1 c. à soupe de psyllium blond</li>
+    <li>1 sachet de levure de boulanger sèche</li>
+    <li>1 c. à café de sucre</li>
+    <li>180 ml d'eau tiède</li>
+    <li>1 c. à soupe d'huile d'olive</li>
+        </ul>
+        <a class="etape-btn" href="pizza.html">Voir les étapes</a>
+      </div>
+    </div>
+
+    <div class="recette-item" data-id="muffins">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🧁 Muffins sans gluten
+        <button class="voir-btn" onclick="afficheRecette('muffins')">Voir</button>
+      </div>
+      <div id="muffins" class="recette-content">
+        <ul>
+    <li>200 g farine de riz</li>
+    <li>50 g fécule de maïs</li>
+    <li>1 sachet levure chimique sans gluten</li>
+    <li>80 g sucre</li>
+    <li>1 pincée sel</li>
+    <li>2 œufs</li>
+    <li>100 ml lait</li>
+    <li>80 ml huile neutre</li>
+        </ul>
+        <a class="etape-btn" href="muffins.html">Voir les étapes</a>
+      </div>
+    </div>
+
+    <div class="recette-item" data-id="burger">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍔 Pain a burger sans gluten
+        <button class="voir-btn" onclick="afficheRecette('burger')">Voir</button>
+      </div>
+      <div id="burger" class="recette-content">
+        <ul>
+    <li>300 g farine de riz</li>
+    <li>50 g farine de pois chiche</li>
+    <li>30 g fécule de maïs</li>
+    <li>1/2 c.à.c gomme xanthane</li>
+    <li>1 c.à.c sel</li>
+    <li>1 sachet levure boulangère sèche</li>
+    <li>1 c.à.c sucre</li>
+    <li>1 œuf</li>
+    <li>50 ml huile d’olive</li>
+    <li>50 ml huile d’olive</li>
+    <li>100 ml eau tiède</li>
+        </ul>
+        <a class="etape-btn" href="burger.html">Voir les étapes</a>
+      </div>
+    </div>
+
+    <div class="recette-item" data-id="croissant">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥐 Croissant sans gluten
+        <button class="voir-btn" onclick="afficheRecette('croissant')">Voir</button>
+      </div>
+      <div id="croissant" class="recette-content">
+        <ul>
+    <li>250 g farine de riz</li>
+    <li>50 g fécule de maïs</li>
+    <li>1/2 c.à.c gomme xanthane</li>
+    <li>1 c.à.c sel</li>
+    <li>1 sachet levure boulangère sèche</li>
+    <li>1 c.à.c sucre</li>
+    <li>150 ml lait tiède</li>
+    <li>50 g beurre fondu</li>
+    <li>50 ml eau tiède</li>
+        </ul>
+        <a class="etape-btn" href="croissant.html">Voir les étapes</a>
+      </div>
+    </div>
+  
+    <div class="recette-item" data-id="gnocchis">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥟 Gnocchis sans gluten
+        <button class="voir-btn" onclick="afficheRecette('gnocchis')">Voir</button>
+      </div>
+      <div id="gnocchis" class="recette-content">
+        <ul>
+    <li>500 g pommes de terre</li>
+    <li>150 g farine de riz</li>
+    <li>50 g farine de tapioca</li>
+    <li>1 œuf</li>
+    <li>1 pincée sel</li>
+        </ul>
+        <a class="etape-btn" href="gnocchis.html">Voir les étapes</a>
+      </div>
+    </div>
+
+    <div class="recette-item" data-id="nuggets">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍗 Nuggets sans gluten
+        <button class="voir-btn" onclick="afficheRecette('nuggets')">Voir</button>
+      </div>
+      <div id="nuggets" class="recette-content">
+        <ul>
+    <li>400 g blanc de poulet</li>
+    <li>100 g farine de riz</li>
+    <li>2 œufs</li>
+    <li>100 g chapelure sans gluten</li>
+    <li>Huile pour friture</li>
+    <li>Sel</li>
+        </ul>
+        <a class="etape-btn" href="nuggets.html">Voir les étapes</a>
+      </div>
+    </div>
+  
+    <div class="recette-item" data-id="blinis">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥞 Blinis sans gluten
+        <button class="voir-btn" onclick="afficheRecette('blinis')">Voir</button>
+      </div>
+      <div id="blinis" class="recette-content">
+        <ul>
+    <li>150 g farine de sarrasin</li>
+    <li>1 œuf</li>
+    <li>150 ml lait</li>
+    <li>1 c.à.c sucre</li>
+    <li>1 pincée sel</li>
+    <li>1/2 sachet levure chimique sans gluten </li>
+    <li>Huile</li>
+        </ul>
+        <a class="etape-btn" href="blinis.html">Voir les étapes</a>
+      </div>
+    </div>
+  
+ <div class="recette-item" data-id="brownie">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍫 Brownie sans gluten
+        <button class="voir-btn" onclick="afficheRecette('brownie')">Voir</button>
+      </div>
+      <div id="brownie" class="recette-content">
+        <ul>
+    <li>200 g de chocolat noir (sans gluten)</li>
+    <li>100 g de beurre ou margarine végétale</li>
+    <li>100 g de sucre de canne</li>
+    <li>2 œufs</li>
+    <li>50 g de farine de riz ou de châtaigne</li>
+    <li>1 pincée de sel</li>
+    <li>(Optionnel) 50 g de noix ou noisettes</li>
+        </ul>
+        <a class="etape-btn" href="brownie.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="crepes">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🌕 Crepes sans gluten
+        <button class="voir-btn" onclick="afficheRecette('crepes')">Voir</button>
+      </div>
+      <div id="crepes" class="recette-content">
+        <ul>
+    <li>100 g de farine de riz</li>
+    <li>50 g de fécule de maïs (Maïzena)</li>
+    <li>2 œufs</li>
+    <li>300 ml de lait (végétal ou classique)</li>
+    <li>1 c. à soupe d'huile neutre</li>
+    <li>1 pincée de sel</li>
+        </ul>
+        <a class="etape-btn" href="crepes.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="gaufres">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🧇 Gaufres sans gluten
+        <button class="voir-btn" onclick="afficheRecette('gaufres')">Voir</button>
+      </div>
+      <div id="gaufres" class="recette-content">
+        <ul>
+    <li>3 œufs</li>
+    <li>50 g de sucre</li>
+    <li>1 pincée de sel</li>
+    <li>200 g de farine sans gluten</li>
+    <li>50 g de fécule de maïs</li>
+    <li>1/2 sachet de levure chimique</li>
+    <li>300 ml de lait</li>
+    <li>80 g de beurre fondu</li>
+        </ul>
+        <a class="etape-btn" href="gaufres.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="baguette">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥖 Baguette sans gluten
+        <button class="voir-btn" onclick="afficheRecette('baguette')">Voir</button>
+      </div>
+      <div id="baguette" class="recette-content">
+        <ul>
+    <li>350 g de farine sans gluten</li>
+    <li>1 c. à soupe de psyllium</li>
+    <li>1 c. à café de sel</li>
+    <li>1 c. à soupe de sucre</li>
+    <li>1 sachet de levure boulangère sèche</li>
+    <li>1 c. à soupe d’huile d’olive</li>
+    <li>300 ml d’eau tiède</li>
+        </ul>
+        <a class="etape-btn" href="baguette.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="brioche">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍞 Brioche sans gluten
+        <button class="voir-btn" onclick="afficheRecette('brioche')">Voir</button>
+      </div>
+      <div id="brioche" class="recette-content">
+        <ul>
+    <li>300 g de farine sans gluten</li>
+    <li>1 c. à soupe de psyllium</li>
+    <li>1/2 c. à café de sel</li>
+    <li>2 c. à soupe de sucre</li>
+    <li>1 sachet de levure boulangère sèche</li>
+    <li>2 œufs</li>
+    <li>150 ml de lait tiède</li>
+    <li>60 g de beurre fondu</li>
+        </ul>
+        <a class="etape-btn" href="brioche.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="cakecitron">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍋 Cake au citron sans gluten
+        <button class="voir-btn" onclick="afficheRecette('cakecitron')">Voir</button>
+      </div>
+      <div id="cakecitron" class="recette-content">
+        <ul>
+    <li>3 œufs</li>
+    <li>120 g de sucre</li>
+    <li>100 g de beurre fondu</li>
+    <li>Le jus + zeste d’un citron</li>
+    <li>100 g de farine de riz</li>
+    <li>50 g de poudre d’amande</li>
+    <li>50 g de fécule de maïs</li>
+    <li>1/2 sachet de levure chimique</li>
+    <li>1 pincée de sel</li>
+        </ul>
+        <a class="etape-btn" href="cakecitron.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="tortilla">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🌕 Tortilla sans gluten
+        <button class="voir-btn" onclick="afficheRecette('tortilla')">Voir</button>
+      </div>
+      <div id="tortilla" class="recette-content">
+        <ul>
+    <li>200 g de farine sans gluten</li>
+    <li>1/2 c. à café de sel</li>
+    <li>Environ 150 ml d’eau</li>
+        </ul>
+        <a class="etape-btn" href="tortilla.html">Voir les étapes</a>
+      </div>
+    </div>
+  
+ <div class="recette-item" data-id="madeleines">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥟 Madeleines sans gluten
+        <button class="voir-btn" onclick="afficheRecette('madeleines')">Voir</button>
+      </div>
+      <div id="madeleines" class="recette-content">
+        <ul>
+    <li>100 g de farine de riz</li>
+    <li>30 g de fécule de maïs</li>
+    <li>2 œufs</li>
+    <li>100 g de sucre</li>
+    <li>100 g de beurre fondu</li>
+    <li>1/2 sachet de levure sans gluten</li>
+    <li>1 zeste de citron ou 1 c. à café de vanille</li>
+        </ul>
+        <a class="etape-btn" href="madeleines.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="pancakes">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥞 Pancakes sans gluten
+        <button class="voir-btn" onclick="afficheRecette('pancakes')">Voir</button>
+      </div>
+      <div id="pancakes" class="recette-content">
+        <ul>
+    <li>100 g de farine de riz</li>
+    <li>50 g de fécule de maïs</li>
+    <li>1 c. à café de levure sans gluten</li>
+    <li>1 c. à soupe de sucre</li>
+    <li>2 œufs</li>
+    <li>200 ml de lait</li>
+    <li>1 c. à soupe d'huile</li>
+    <li>1 pincée de sel</li>
+        </ul>
+        <a class="etape-btn" href="pancakes.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="tartepomme">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🥧 Tarte au pomme sans gluten
+        <button class="voir-btn" onclick="afficheRecette('tartepomme')">Voir</button>
+      </div>
+      <div id="tartepomme" class="recette-content">
+        <ul>
+          <li>120 g de farine de riz</li>
+          <li>40 g de poudre d'amande</li>
+          <li>40 g de fécule de maïs</li>
+          <li>80 g de beurre ou margarine</li>
+          <li>1 œuf</li>
+          <li>1 c. à soupe de sucre</li>
+          <li>1 pincée de sel</li>
+        </ul>
+        <a class="etape-btn" href="tartepommes.html">Voir les étapes</a>
+      </div>
+    </div>
+
+ <div class="recette-item" data-id="wraps">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🌯 Wraps sans gluten
+        <button class="voir-btn" onclick="afficheRecette('wraps')">Voir</button>
+      </div>
+      <div id="wraps" class="recette-content">
+        <ul>
+          <li>120 g de farine de riz</li>
+          <li>60 g de fécule de tapioca</li>
+          <li>1 c. à café de psyllium blond</li>
+          <li>1 pincée de sel</li>
+          <li>150 ml d'eau tiède</li>
+          <li>1 c. à soupe d'huile neutre</li>
+        </ul>
+        <a class="etape-btn" href="wraps.html">Voir les étapes</a>
+      </div>
+    </div>
+  
+    <div class="recette-item" data-id="cookies">
+      <span class="heart">🤍</span>
+      <div class="recette-title">🍪 Cookies sans gluten
+        <button class="voir-btn" onclick="afficheRecette('cookies')">Voir</button>
+      </div>
+      <div id="cookies" class="recette-content">
+        <ul>
+          <li>120 g de farine sans gluten</li>
+          <li>100 g de sucre roux</li>
+          <li>1 œuf</li>
+          <li>80 g de beurre mou</li>
+          <li>1/2 c. à café de levure chimique sans gluten</li>
+          <li>1/2 c. à café d'extrait de vanille</li>
+          <li>100 g de pépites de chocolat noir</li>
+        </ul>
+        <a class="etape-btn" href="cookies.html">Voir les étapes</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<script>
+
+function getFavoris() {
+  const favoris = localStorage.getItem('favoris');
+  return favoris ? JSON.parse(favoris) : [];
+}
+
+function saveFavoris(favoris) {
+  localStorage.setItem('favoris', JSON.stringify(favoris));
+}
+
+function updateHearts() {
+  const favoris = getFavoris();
+  document.querySelectorAll('.recette-item').forEach(item => {
+    const id = item.dataset.id;
+    const heart = item.querySelector('.heart');
+    if (favoris.includes(id)) {
+      heart.textContent = '❤️';
+      heart.classList.add('fav');
+    } else {
+      heart.textContent = '🤍';
+      heart.classList.remove('fav');
+    }
+  });
+}
+
+function setupHearts() {
+  document.querySelectorAll('.heart').forEach(heart => {
+    heart.addEventListener('click', () => {
+      const item = heart.closest('.recette-item');
+      const id = item.dataset.id;
+      let favoris = getFavoris();
+
+      if (favoris.includes(id)) {
+
+        favoris = favoris.filter(favId => favId !== id);
+      } else {
+
+        favoris.push(id);
+      }
+
+      saveFavoris(favoris);
+      updateHearts();
+    });
+  });
+}
+
+function filterRecipes() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+
+  document.querySelectorAll('.recette-item').forEach(item => {
+    const title = item.querySelector('.recette-title').textContent.toLowerCase();
+
+    if (title.includes(search)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateHearts();
+  setupHearts();
+
+  document.getElementById('searchInput').addEventListener('input', () => {
+    filterRecipes();
+  });
+});
+
+    const savedTheme = localStorage.getItem('cookzenTheme');
+    if (savedTheme) {
+      document.body.className = savedTheme;
+    }
+
+  function afficheRecette(id) {
+
+  const recette = document.getElementById(id);
+  if (!recette) return;
+
+  if (recette.style.display === 'block') {
+    recette.style.display = 'none';
+  } else {
+    recette.style.display = 'block';
+  }
+}
+</script>
+
+</body>
+
+</html>
+
 
